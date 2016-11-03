@@ -1,0 +1,43 @@
+aws:
+  region: 'eu-central-1'
+
+service:
+  name: 'mushroom'
+  exposed_port: '80'
+  container_port: '8080'
+  zone: 'internal'
+  dev:
+    desired_count: '1'
+  prod:
+    desired_count: '4'
+
+task:
+  dev:
+    name: 'api'
+    image: 'mardle/rest-api-test'
+    mem: '80'
+    environment:
+      JAVA_HOME: '/usr/java'
+      NEWRELIC: '/opt/relicstuff'
+    lables:
+      tier: 'backend'
+      newrelic: 'true'
+    require: redis
+    childs:
+      redis:
+        name: 'redis'
+        image: 'redis'
+        mem: '128'
+        essential: false
+
+  prod:
+    name: 'api'
+    image: 'mardle/rest-api-test'
+    mem: '90'
+    require: redis
+    childs:
+      redis:
+        name: 'redis'
+        image: 'redis'
+        mem: '128'
+        essential: true
