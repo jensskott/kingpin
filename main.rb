@@ -4,6 +4,7 @@ require 'aws-sdk'
 opts = YAML.load_file(ARGV.shift)
 env = ARGV.shift
 serviceName = opts['service']['name'] + "-#{env}"
+link = opts['task'][env]['childs'][opts['task'][env]['require']]['name']
 
 ecs = Aws::ECS::Client.new(region: opts['aws']['region'])
 
@@ -15,6 +16,7 @@ ecs.register_task_definition({
       image: opts['task'][env]['image'],
       memory: opts['task'][env]['mem'],
       docker_labels: opts['task'][env]['lables'],
+      links: ["#{link}:#{link}"],
       #environment: [opts['task'][env]['environment']],
     },
     {
@@ -45,3 +47,6 @@ else
     task_definition: serviceName,
   })
 end
+
+
+# TODO Create or update LB and link it to service!
