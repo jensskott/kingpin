@@ -6,7 +6,7 @@ opts = YAML.load_file(ARGV.shift)
 env = ARGV.shift
 serviceName = opts['service']['name'] + "-#{env}"
 
-task_definition = "\"{container_definitions\": [
+task_definition = "{\"container_definitions\": [
     <% opts['task'][env].each do |k,v| %>
     {
       <% v.each do |k,v| %>
