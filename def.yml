@@ -34,10 +34,20 @@ task:
     name: 'api'
     image: 'mardle/rest-api-test'
     mem: '90'
-    require: redis
+    require: redis,mongo
     childs:
       redis:
         name: 'redis'
         image: 'redis'
         mem: '128'
+        essential: true
+      mongo:
+        name: 'mongodb'
+        image: 'mongo'
+        mem: '256'
+        essential: true
+      hugo:
+        name: 'hugo'
+        image: 'hugo'
+        mem: '256'
         essential: true
