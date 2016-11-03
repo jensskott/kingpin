@@ -13,41 +13,40 @@ service:
 
 task:
   dev:
-    name: 'api'
-    image: 'mardle/rest-api-test'
-    mem: '80'
-    environment:
-      JAVA_HOME: '/usr/java'
-      NEWRELIC: '/opt/relicstuff'
-    lables:
-      tier: 'backend'
-      newrelic: 'true'
-    require: redis
-    childs:
-      redis:
-        name: 'redis'
-        image: 'redis'
-        mem: '128'
-        essential: false
+    api:
+      name: 'api'
+      essential: true
+      image: 'mardle/rest-api-test'
+      memory: '80'
+      environment:
+       JAVA_HOME: '/usr/java'
+       NEWRELIC: '/opt/relicstuff'
+      docker_labels:
+       tier: 'backend'
+       newrelic: 'false'
+      links: 'redis:redis'
+    redis:
+      name: 'redis'
+      essential: false
+      image: 'redis'
+      memory: '128'
+
 
   prod:
-    name: 'api'
-    image: 'mardle/rest-api-test'
-    mem: '90'
-    require: redis,mongo
-    childs:
-      redis:
-        name: 'redis'
-        image: 'redis'
-        mem: '128'
-        essential: true
-      mongo:
-        name: 'mongodb'
-        image: 'mongo'
-        mem: '256'
-        essential: true
-      hugo:
-        name: 'hugo'
-        image: 'hugo'
-        mem: '256'
-        essential: true
+    api:
+      name: 'api'
+      essential: true
+      image: 'mardle/rest-api-test'
+      memory: '90'
+      environment:
+       JAVA_HOME: '/usr/java'
+       NEWRELIC: '/opt/relicstuff'
+      docker_labels:
+       tier: 'backend'
+       newrelic: 'true'
+      links: 'redis:redis'
+    redis:
+      name: 'redis'
+      essential: true
+      image: 'redis'
+      memory: '128'
