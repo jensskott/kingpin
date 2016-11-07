@@ -6,17 +6,16 @@ opts = YAML.load_file(ARGV.shift)
 env = ARGV.shift
 serviceName = opts['service']['name'] + "-#{env}"
 
+json_opts = opts['task'][env].to_json
+parsed = JSON.parse(json_opts)
+last = parsed.keys.to_a.last
+
 task_definition = "{\"container_definitions\": [
-    <% opts['task'][env].each do |k,v| %>
-    {
-      <% v.each do |k,v| %>
-      \"<%= k %>\": \"<%= v %>\",
-      <% end %>
-      \"privileged\": false
-    },
+    <% parsed.each do |name,data| %>
+      <%= data.to_json %><% unless last == data[\"name\"] %>,<% end %>
     <% end %>
   ],
-  \"family\": \"<%= serviceName %>\",
+  \"family\": \"<%= serviceName %>\"
 }
 "
 

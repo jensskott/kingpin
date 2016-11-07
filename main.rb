@@ -4,7 +4,6 @@ require 'aws-sdk'
 opts = YAML.load_file(ARGV.shift)
 env = ARGV.shift
 serviceName = opts['service']['name'] + "-#{env}"
-link = opts['task'][env]['childs'][opts['task'][env]['require']]['name']
 
 ecs = Aws::ECS::Client.new(region: opts['aws']['region'])
 

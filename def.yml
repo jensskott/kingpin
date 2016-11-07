@@ -3,7 +3,7 @@ aws:
 
 service:
   name: 'mushroom'
-  exposed_port: '80'
+  exposed_port: 80
   container_port: '8080'
   zone: 'internal'
   dev:
@@ -38,12 +38,6 @@ task:
       essential: true
       image: 'mardle/rest-api-test'
       memory: '90'
-      environment:
-       JAVA_HOME: '/usr/java'
-       NEWRELIC: '/opt/relicstuff'
-      docker_labels:
-       tier: 'backend'
-       newrelic: 'true'
       links: 'redis:redis'
     redis:
       name: 'redis'
