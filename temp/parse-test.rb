@@ -10,6 +10,8 @@ json_opts = opts['task'][env].to_json
 parsed = JSON.parse(json_opts)
 last = parsed.keys.to_a.last
 
+
+
 task_definition = "{\"container_definitions\": [
     <% parsed.each do |name,data| %>
       <%= data.to_json %><% unless last == data[\"name\"] %>,<% end %>

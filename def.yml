@@ -1,46 +1,78 @@
-aws:
-  region: 'eu-central-1'
+# Type of a service to maintain: PublicService creates public ELB,  PrivateService creates internal ELB
+type: PublicService
+version: 1
 
-service:
-  name: 'mushroom'
-  exposed_port: 80
-  container_port: '8080'
-  zone: 'internal'
-  dev:
-    desired_count: '1'
-  prod:
-    desired_count: '4'
+metadata:
+  name: my-frontend-ui
+  labels:
+    - name: "datadog"
+      value: "true"
+    - name: "ecs"
+      value: "false"
+spec:
 
-task:
-  dev:
-    api:
-      name: 'api'
-      essential: true
-      image: 'mardle/rest-api-test'
-      memory: '80'
-      environment:
-       JAVA_HOME: '/usr/java'
-       NEWRELIC: '/opt/relicstuff'
-      docker_labels:
-       tier: 'backend'
-       newrelic: 'false'
-      links: 'redis:redis'
-    redis:
-      name: 'redis'
-      essential: false
-      image: 'redis'
-      memory: '128'
+  # Container autoscaling
+  scaling:
+    min: 1
+    desired: 1
+    max: 2
 
+  # Roles required
+  iamRoles:
+    - "ecsBasicRole" # Always added
+    - "s3ReadAccess"
+    - "ec2Defaults"
 
-  prod:
-    api:
-      name: 'api'
-      essential: true
-      image: 'mardle/rest-api-test'
-      memory: '90'
-      links: 'redis:redis'
-    redis:
-      name: 'redis'
-      essential: true
-      image: 'redis'
-      memory: '128'
+  # Shared volumes on ECS cluster
+  volumes:
+  - name: "webdata"
+    source: "/ecs/webdata"
+
+  # Container definition
+  containers:
+  # Container for Nginx
+  - name: nginx
+    image: ~/nginx:1.7.9 # If image starts with "~/" - auto-detect service-specific registry URL
+    essential: true # main container - if down, then restart all
+
+    env:
+    - name: "SERVER_PORT"
+      value: 8080
+
+    ports:
+    - containerPort: 8080 # Port EXPOSE
+      port: 80            # ELB & ELB Target Group port (listener)
+      protocol: "http"    # http or https
+      name: "public"      # "_default_" if omited (may only be one unnamed port)
+
+# Secondary ports are currently not supported. But if they were...
+#    - containerPort: 8081 # Port EXPOSE
+#      port: 81
+#      protocol: "https"
+#      name: "management"
+
+    health:
+      portName: "public" # defaults to "_default_"
+      path: "/health"
+      timeout: 10s
+      interval: 5s
+      healthyTh: 3
+      unhealthyTh: 2
+
+    volumes:  # Volume mounting
+    - sourceVolume: "webdata"
+      containerPath: "/usr/share/nginx/html"
+
+    resources:  # Resource limits
+      cpu: ""
+      memory: ""
+
+    links:  #Container links
+    - "redis:redis"
+
+  # Container for Redis
+  - name: redis
+    image: redis
+    essential: false
+    resources:
+      memory: 128M # Units are parsed to be user friendly, no unit = MB
