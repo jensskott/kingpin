@@ -37,6 +37,7 @@ end
 serviceName = opts['metadata']['name']
 parseLabels(opts['metadata']['labels'], 'docker_labels') # second value is the varaible
 parseContainers(opts['spec']['containers'], 'containers')
+
 last = @containers.last
 
 task_definition = "{\"container_definitions\": [
@@ -48,7 +49,15 @@ task_definition = "{\"container_definitions\": [
 }
 "
 
+service = "servicename = \"<%= serviceName %>\"
+"
+
 renderer = ERB.new(task_definition)
 File.open('task-definition.json', 'w') do |f|
+  f.write renderer.result(binding)
+end
+
+renderer = ERB.new(service)
+File.open('service.tfvars', 'w') do |f|
   f.write renderer.result(binding)
 end

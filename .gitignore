@@ -52,3 +52,4 @@ build-iPhoneSimulator/
 # Specific
 
 task-definition.json
+*.tfvars
