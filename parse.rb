@@ -17,6 +17,7 @@ end
 
 def parseContainers(array, arrayName)
   instance_variable_set("@#{arrayName}", Array.new)
+  @servicePort = Array.new
   array.each do |l|
     c = Hash.new
     c['name'] = l['name']
@@ -28,7 +29,9 @@ def parseContainers(array, arrayName)
     c['mountPoints'] = l['volumes']
     c['docker_labels'] = @docker_labels
     c['links'] = l['links']
-
+    unless l['ports'].nil?
+      @servicePort << l['ports']
+    end
     instance_variable_get("@#{arrayName}") << c
   end
 end
@@ -38,6 +41,12 @@ serviceName = opts['metadata']['name']
 parseLabels(opts['metadata']['labels'], 'docker_labels') # second value is the varaible
 parseContainers(opts['spec']['containers'], 'containers')
 volumes = opts['spec']['volumes']
+@servicePort.each do |k,v|
+  @containerPort = k['containerPort']
+  @elb_port = k['port']
+  @protocol = k['protocol']
+end
+serviceType = opts['type']
 
 last = @containers.last
 
@@ -53,7 +62,17 @@ task_definition = "{\"container_definitions\": [
   }
 "
 
-service = "servicename = \"<%= serviceName %>\"
+service = "product: <%= serviceName %>
+service: <%= ARGV.shift %>
+env: <%= ARGV.shift %>
+region: <%= ARGV.shift %>
+elb_port: <%= @containerPort %>
+container_port: <%= @elb_port %>
+<% if serviceType == \"PublicService\" %>
+service_type: public
+<% else %>
+service_type: private
+<% end %>
 "
 
 renderer = ERB.new(task_definition)
