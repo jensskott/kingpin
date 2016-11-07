@@ -37,6 +37,7 @@ end
 serviceName = opts['metadata']['name']
 parseLabels(opts['metadata']['labels'], 'docker_labels') # second value is the varaible
 parseContainers(opts['spec']['containers'], 'containers')
+volumes = opts['spec']['volumes']
 
 last = @containers.last
 
@@ -45,8 +46,11 @@ task_definition = "{\"container_definitions\": [
       <%= array.to_json %><% unless last['name'] == array[\"name\"] %>,<% end %>
     <% end %>
   ],
-  \"family\": \"<%= serviceName %>\"
-}
+  \"family\": \"<%= serviceName %>\",
+  \"volumes\": [<% volumes.each do |k| %>
+    <%= k.to_json %>
+  <% end %>]
+  }
 "
 
 service = "servicename = \"<%= serviceName %>\"
