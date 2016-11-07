@@ -25,7 +25,7 @@ def parseContainers(array, arrayName)
     c['environment'] = l['env']
     c['memory'] = l['resources']['memory']
     c['cpu'] = l['resources']['cpu']
-    #c['mountPoints'] = l['vlumes']
+    c['mountPoints'] = l['volumes']
     c['docker_labels'] = @docker_labels
     c['links'] = l['links']
 
