@@ -25,6 +25,9 @@ def parseContainers(array, arrayName)
     c['environment'] = l['env']
     c['memory'] = l['resources']['memory']
     c['cpu'] = l['resources']['cpu']
+    #c['mountPoints'] = l['vlumes']
+    c['docker_labels'] = @docker_labels
+    c['links'] = l['links']
 
     instance_variable_get("@#{arrayName}") << c
   end
@@ -34,7 +37,6 @@ end
 serviceName = opts['metadata']['name']
 parseLabels(opts['metadata']['labels'], 'docker_labels') # second value is the varaible
 parseContainers(opts['spec']['containers'], 'containers')
-
 last = @containers.last
 
 task_definition = "{\"container_definitions\": [

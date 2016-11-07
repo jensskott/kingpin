@@ -60,8 +60,8 @@ spec:
       unhealthyTh: 2
 
     volumes:  # Volume mounting
-    - sourceVolume: "webdata"
-      containerPath: "/usr/share/nginx/html"
+    - sourceVolume:
+      containerPath:
 
     resources:  # Resource limits
       cpu: ""
