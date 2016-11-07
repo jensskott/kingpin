@@ -29,6 +29,8 @@ def parseContainers(array, arrayName)
     c['mountPoints'] = l['volumes']
     c['docker_labels'] = @docker_labels
     c['links'] = l['links']
+    c['logConfiguration'] = l['logs']
+    puts l['logs']
     unless l['ports'].nil?
       @servicePort << l['ports']
     end

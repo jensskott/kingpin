@@ -50,6 +50,11 @@ spec:
 #      port: 81
 #      protocol: "https"
 #      name: "management"
+    logs:
+      - logdriver: "gelf"
+        options:
+          gelf-address: "udp://crap.com:5212"
+          labels: "hej, då"
 
     health:
       portName: "public" # defaults to "_default_"
