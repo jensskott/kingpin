@@ -23,3 +23,8 @@ def awsBucket(region, bucketName)
         Kinglog.log.info "Bucket allready exists"
     end
 end
+
+def createTask(task,region)
+    ecs = connectEcs(region)
+    ecs.register_task_definition(task)
+end

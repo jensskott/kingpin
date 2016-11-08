@@ -32,7 +32,8 @@ class Kingpin
     when 'debug'
         puts 'Output everything in standard out'
     when 'aws'
-        puts 'use aws cli'
+        task = taskOpts(containers,opts[:yaml]['metadata']['name'])
+        createTask(task,opts[:region])
     when 'terraform'
         Kinglog.log.info 'Running terraform to configure ECS environment'
         terrformExecCheck
