@@ -2,25 +2,29 @@
 require 'aws-sdk'
 require 'yaml'
 require 'trollop'
+require 'logger'
 
 # Require local libs
-require_relative 'aws'
-require_relative 'parse'
-require_relative 'options'
-require_relative 'log'
+require_relative 'kingpin/aws'
+require_relative 'kingpin/parse'
+require_relative 'kingpin/options'
+require_relative 'kingpin/log'
+
+
+class Kingpin
 
 # Get options from CLI and file
 opts = cliOpts
 
+## Variables
 # Parse data from cli and file
 labels = parseLabels(opts[:yaml]['metadata']['labels'])
 servicePort = parseService(opts[:yaml]['spec']['containers'])
 containers = parseContainers(opts[:yaml]['spec']['containers'],labels)
 
-puts labels
-puts servicePort
-puts containers
+# Other variables
 
+# Choose tool to create service
 case opts[:command]
 when "aws"
   puts "use aws cli"

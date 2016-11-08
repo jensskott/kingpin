@@ -12,8 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://github.com/jensskott/kingpin"
   spec.license       = "MIT"
 
-  spec.files         = ['lib/kingpin.rb']
-  spec.executables   = ['bin/kingpin']
-  spec.test_files    = ['tests/test_kingpin.rb']
-  spec.require_paths = ["lib"]
+  spec.files         = `git ls-files`.split($\)
+  spec.require_paths = [lib]
+  #spec.version       = Kingpin::VERSION
 end
