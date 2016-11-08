@@ -50,6 +50,9 @@ build-iPhoneSimulator/
 .rvmrc
 
 # Specific
-
+*.yml
+*.yaml
 task-definition.json
 *.tfvars
+log/
+.terraform*
