@@ -26,31 +26,26 @@ def cliOpts()
   Trollop::die :env, "Define an environment" if opts[:env].nil?
   Trollop::die :file, "Define a file" if opts[:file].nil?
 
-  puts File.expand_path(opts[:file])
-
   # Merge filepath + filename to opts
   opts[:file] = File.expand_path(opts[:file])
 
-
-
-
   # Check if file exists
   if !File.exists? (opts[:file])
-    KingLog.log.error "File does not exist"
+    Kinglog.log.error "File does not exist"
     abort
   end
 
   # Check valid extention
   accepted_formats = [".yml", ".yaml"]
   if !accepted_formats.include? File.extname(opts[:file])
-    KingLog.log.error "Not a valid yaml extention"
+    Kinglog.log.error "Not a valid yaml extention"
     abort
   end
 
   # Check valid yaml
-  KingLog.log.info "Validating yaml file : #{opts[:file]}"
+  Kinglog.log.info "Validating yaml file : #{opts[:file]}"
   if YAML.load_file(opts[:file]) == false
-    KingLog.log.error "failed to read #{opts[:file]}: #{$!}"
+    Kinglog.log.error "failed to read #{opts[:file]}: #{$!}"
     abort
   end
 

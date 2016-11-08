@@ -1,4 +1,4 @@
-class KingLog
+class Kinglog
   def self.log
 
     # Create logdir
