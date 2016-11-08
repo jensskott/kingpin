@@ -1,13 +1,14 @@
-def parseLabels(array, arrayName)
-  instance_variable_set("@#{arrayName}", Hash.new)
+def parseLabels(array)
+  hash = Hash.new
   array.each do |l|
     key = l['name']
     value = l['value']
-    instance_variable_get("@#{arrayName}")[key] = value
+    hash[key] = value
   end
+  return hash
 end
 
-def parseContainers(array)
+def parseContainers(array,labels)
   arr = Array.new
   array.each do |l|
     c = Hash.new
@@ -18,7 +19,7 @@ def parseContainers(array)
     c['memory'] = l['resources']['memory']
     c['cpu'] = l['resources']['cpu']
     c['mountPoints'] = l['volumes']
-    c['docker_labels'] = @docker_labels
+    c['docker_labels'] = labels
     c['links'] = l['links']
     c['logConfiguration'] = l['logs']
     arr << c

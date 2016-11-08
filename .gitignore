@@ -54,3 +54,4 @@ build-iPhoneSimulator/
 *.yaml
 task-definition.json
 *.tfvars
+log/
