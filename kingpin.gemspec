@@ -4,7 +4,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "kingpin"
-  spec.version       = '1.0'
   spec.authors       = ["jens.skott"]
   spec.email         = ["jens.skott@gmail.com"]
   spec.summary       = %q{Create and manage ecs resources}
@@ -14,5 +13,5 @@ Gem::Specification.new do |spec|
 
   spec.files         = `git ls-files`.split($\)
   spec.require_paths = [lib]
-  #spec.version       = Kingpin::VERSION
+  spec.version       = '0.1.0'
 end
