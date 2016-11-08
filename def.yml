@@ -1,6 +1,7 @@
 # Type of a service to maintain: PublicService creates public ELB,  PrivateService creates internal ELB
 type: PublicService
 version: 1
+product: web-front
 
 metadata:
   name: my-frontend-ui

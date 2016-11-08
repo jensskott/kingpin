@@ -1,12 +1,14 @@
-require 'yaml'
 require 'aws-sdk'
+#require_relative 'parse'
+require 'yaml'
 
 opts = YAML.load_file(ARGV.shift)
+service = ARGV.shift
 env = ARGV.shift
-serviceName = opts['service']['name'] + "-#{env}"
+region = ARGV.shift
+ecs = Aws::ECS::Client.new(region: region)
 
-ecs = Aws::ECS::Client.new(region: opts['aws']['region'])
-
+=begin
 ecs.register_task_definition({
   container_definitions: [
     {
@@ -27,6 +29,9 @@ ecs.register_task_definition({
   ],
   family: serviceName,
 })
+=end
+
+
 
 service = ecs.describe_services({
   services: [
@@ -36,7 +41,7 @@ service = ecs.describe_services({
 
 if service.data.services.empty?
   ecs.create_service({
-    desired_count: opts['service'][env]['desired_count'],
+    desired_count: opts['spec']['scaling']['desired'],
     service_name: serviceName,
     task_definition: serviceName,
   })

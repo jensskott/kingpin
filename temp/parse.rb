@@ -3,7 +3,9 @@ require 'erb'
 require 'json'
 
 opts = YAML.load_file(ARGV.shift)
-
+service = ARGV.shift
+env = ARGV.shift
+region = ARGV.shift
 # Map yaml objects to variables
 
 def parseLabels(array, arrayName)
@@ -63,10 +65,10 @@ task_definition = "{\"container_definitions\": [
   }
 "
 
-service = "product: <%= serviceName %>
-service: <%= ARGV.shift %>
-env: <%= ARGV.shift %>
-region: <%= ARGV.shift %>
+terraformService = "product: <%= serviceName %>
+service: <%= service %>
+env: <%= env %>
+region: <%= region %>
 elb_port: <%= @containerPort %>
 container_port: <%= @elb_port %>
 <% if serviceType == \"PublicService\" %>
@@ -81,7 +83,7 @@ File.open('task-definition.json', 'w') do |f|
   f.write renderer.result(binding)
 end
 
-renderer = ERB.new(service)
+renderer = ERB.new(terraformService)
 File.open('service.tfvars', 'w') do |f|
   f.write renderer.result(binding)
 end
