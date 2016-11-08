@@ -10,13 +10,13 @@ require 'mkmf'
 require 'hashie'
 
 # Require local libs
-require_relative 'kingpin/aws'
-require_relative 'kingpin/parse'
-require_relative 'kingpin/options'
-require_relative 'kingpin/log'
-require_relative 'kingpin/terraform'
-require_relative 'kingpin/service'
-require_relative 'kingpin/task'
+require_relative 'ecs-kingpin/aws'
+require_relative 'ecs-kingpin/parse'
+require_relative 'ecs-kingpin/options'
+require_relative 'ecs-kingpin/log'
+require_relative 'ecs-kingpin/terraform'
+require_relative 'ecs-kingpin/service'
+require_relative 'ecs-kingpin/task'
 
 # Get options from CLI and file
 class Kingpin

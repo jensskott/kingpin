@@ -5,12 +5,12 @@ end
 
 def cliOpts
     opts = Trollop.options do
-        version 'Kingpin 0.1.0'
+        version 'ecs-kingpin 0.1.0'
         banner <<-EOS
     Manage your ECS resources.
 
     Usage:
-           kinpin [options]
+           ecs-kinpin [options]
     where [options] are:
     EOS
 

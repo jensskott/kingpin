@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($\)
-  spec.executables   = ["kingpin"]
+  spec.executables   = ["ecs-kingpin"]
   spec.require_paths = [lib]
-  spec.version       = '0.1.2'
+  spec.version       = '0.1.0'
 end
