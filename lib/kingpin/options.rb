@@ -21,13 +21,18 @@ def cliOpts()
     opt :file, "Yaml file to read data from", :type => :string
   end
 
-  # Merge filepath + filename to opts
-  opts[:file] = File.expand_path(opts[:file])
-
   # Check for options needed
   Trollop::die :region, "Define a region" if opts[:region].nil?
   Trollop::die :env, "Define an environment" if opts[:env].nil?
   Trollop::die :file, "Define a file" if opts[:file].nil?
+
+  puts File.expand_path(opts[:file])
+
+  # Merge filepath + filename to opts
+  opts[:file] = File.expand_path(opts[:file])
+
+
+
 
   # Check if file exists
   if !File.exists? (opts[:file])
