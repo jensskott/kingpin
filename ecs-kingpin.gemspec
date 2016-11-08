@@ -6,7 +6,7 @@ require 'bundler'
 require 'rake'
 
 Gem::Specification.new do |spec|
-  spec.name          = "kingpin"
+  spec.name          = "ecs-kingpin"
   spec.authors       = ["jens.skott"]
   spec.email         = ["jens.skott@gmail.com"]
   spec.summary       = %q{Create and manage ecs resources}
