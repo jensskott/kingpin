@@ -2,6 +2,9 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require 'bundler'
+require 'rake'
+
 Gem::Specification.new do |spec|
   spec.name          = "kingpin"
   spec.authors       = ["jens.skott"]
@@ -12,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($\)
+  spec.executables   = ["kingpin"]
   spec.require_paths = [lib]
-  spec.version       = '0.1.0'
+  spec.version       = '0.1.1'
 end
