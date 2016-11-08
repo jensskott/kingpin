@@ -55,3 +55,4 @@ build-iPhoneSimulator/
 task-definition.json
 *.tfvars
 log/
+.terraform*

@@ -17,5 +17,5 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files`.split($\)
   spec.executables   = ["kingpin"]
   spec.require_paths = [lib]
-  spec.version       = '0.1.1'
+  spec.version       = '0.1.2'
 end

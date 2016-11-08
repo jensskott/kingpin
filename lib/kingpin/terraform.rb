@@ -25,6 +25,14 @@ end
 
 # Run terraform to apply config
 def terraformRun
+    tf = "terraform apply"
+    tfget = "terraform get"
+    system tfget
+    system tf
+    if $? != 0
+        Kinglog.log.error "Can't run terraform config. Error: #{$?}"
+        abort
+    end
 end
 
 # Clean up all temporary files from terraform
