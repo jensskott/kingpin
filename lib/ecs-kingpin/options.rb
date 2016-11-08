@@ -17,7 +17,7 @@ def cliOpts
         opt :region, 'Put your aws region here', type: :string
         opt :env, 'Application Environment', type: :string
         opt :product, 'The product where your services are related', type: :string
-        opt :command, 'Use aws cli or terraform to create service', type: :string, default: 'aws'
+        opt :command, 'aws, terraform or debug', type: :string, default: 'aws'
         opt :file, 'Yaml file to read data from', type: :string
         opt :local, 'Use local config files', type: :bool, default: false
     end

@@ -8,12 +8,12 @@ def createServiceVars(array, ports)
     containerPort = ports[0][0]['port']
     type = array[:yaml]['type']
     serviceVars = "product: <%= product %>
-  service: <%= service %>
-  env: <%= env %>
-  region: <%= region %>
-  elb_port: <%= port %>
-  container_port: <%= containerPort %>
-  <% if type == \"PublicService\" %>service_type: public<% else %>service_type: private<% end %>"
+service: <%= service %>
+env: <%= env %>
+region: <%= region %>
+elb_port: <%= port %>
+container_port: <%= containerPort %>
+<% if type == \"PublicService\" %>service_type: public<% else %>service_type: private<% end %>"
 
     # Create a service.tfvars
     renderer = ERB.new(serviceVars)

@@ -29,6 +29,8 @@ class Kingpin
     containers = parseContainers(opts[:yaml]['spec']['containers'], labels)
 
     case opts[:command]
+    when 'debug'
+        puts 'Output everything in standard out'
     when 'aws'
         puts 'use aws cli'
     when 'terraform'
