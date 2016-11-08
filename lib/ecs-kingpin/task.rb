@@ -20,4 +20,5 @@ end
 
 # Create task options for aws api
 def taskOpts
+    
 end

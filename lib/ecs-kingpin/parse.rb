@@ -1,3 +1,4 @@
+# Parse all the lables from the yaml file
 def parseLabels(array)
     hash = {}
     array.each do |l|
@@ -8,6 +9,7 @@ def parseLabels(array)
     hash
 end
 
+# Parse containerdata from the yaml file
 def parseContainers(array, labels)
     arr = []
     array.each do |l|
@@ -24,13 +26,14 @@ def parseContainers(array, labels)
         c['logConfiguration'] = l['logs']
         arr << c
     end
-    arr
+    return arr
 end
 
+# Parse service variables and return them
 def parseService(array)
     arr = []
     array.each do |l|
         arr << l['ports'] unless l['ports'].nil?
     end
-    arr
+    return arr
 end

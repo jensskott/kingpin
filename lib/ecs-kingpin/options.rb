@@ -13,7 +13,7 @@ def cliOpts
            ecs-kinpin [options]
     where [options] are:
     EOS
-
+        # Get all options we need
         opt :region, 'Put your aws region here', type: :string
         opt :env, 'Application Environment', type: :string
         opt :product, 'The product where your services are related', type: :string
@@ -54,5 +54,5 @@ def cliOpts
     # Puts all file options into opts[:yaml]
     # Accessable trough opts[:yaml]['metadata'] ....
     opts[:yaml] = fileOpts(opts[:file])
-    opts
+    return opts
 end
