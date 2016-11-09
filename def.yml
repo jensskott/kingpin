@@ -31,7 +31,7 @@ spec:
   # Container definition
   containers:
   # Container for Nginx
-  - name: nginx
+  - name: rest-api
     image: mardle/rest-api-test # If image starts with "~/" - auto-detect service-specific registry URL
     essential: true # main container - if down, then restart all
 
@@ -74,7 +74,7 @@ spec:
       memory: 2048
 
     links:  #Container links
-    - "redis:redis"
+    
 
   # Container for Redis
   - name: redis

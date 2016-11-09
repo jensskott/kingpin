@@ -13,7 +13,6 @@ end
 def parseContainers(array, labels)
     arr = []
     array.each do |l|
-        log = []
         c = {}
         c['name'] = l['name'] # required
         c['image'] = l['image'] # required

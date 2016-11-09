@@ -29,7 +29,9 @@ def diffTaskDefinition(containers, service, currentTask)
     currentTask = currentTask.to_h
     h1 = task[:container_definitions][0].to_h
     h2 = currentTask[:task_definition][:container_definitions][0].to_h
-    # Create hashes from the different containers
-    diff = HashDiff.diff(h1, h2)
-    puts diff.true
+    # Compare tasks and yaml to see if update is needed
+    json1 = h1.to_json
+    json2 = h2.to_json
+    first, second = Yajl::Parser.parse(json1), Yajl::Parser.parse(json2)
+    return JsonCompare.get_diff(first, second)
 end

@@ -48,8 +48,18 @@ def createTask(containers, service, region)
     ecs = connectEcs(region)
     begin
         ecs.register_task_definition(task)
-        Kinglog.log.info "Sucessfully created task defintion: #{task[:family]}"
     rescue Aws::ECS::Errors::ServiceError
         Kinglog.log.error "Cant create a task definition"
+    end
+end
+
+def updateService(containers, service, region)
+    task = taskOpts(containers,service)
+    ecs = connectEcs(region)
+    begin
+
+        Kinglog.log.info "Updating task definition for #{task[:family]}}"
+    rescue Aws::ECS::Errors::ServiceError
+        Kinglog.log.error "Cant update task defintion"
     end
 end

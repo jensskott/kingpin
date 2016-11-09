@@ -8,7 +8,9 @@ require 'erb'
 require 'fileutils'
 require 'mkmf'
 require 'hashie'
-require 'hashdiff'
+require 'yajl'
+require 'json-compare'
+
 
 # Require local libs
 require_relative 'ecs-kingpin/aws' # All aws related calls
@@ -38,16 +40,16 @@ class Kingpin
         Kinglog.log.info 'Running AWS api to configure ECS tasks and services'
         currentTask = describeTask(service,region)
         if currentTask.nil?
+            Kinglog.log.info "Creating task defintion for #{service}"
             createTask(containers, service, region)
         else
             Kinglog.log.info 'Task allready exsists, checking if update is needed'
-            if diffTaskDefinition(containers, service, currentTask) == true
+            if diffTaskDefinition(containers, service, currentTask).empty?
                 Kinglog.log.info 'No update needed'
             else
-                #updateTask()
-                puts "updates goes here"
+                Kinglog.log.info "Updating task defintion for #{service}"
+                createTask(containers, service, region)
             end
-
         end
     when 'terraform'
         Kinglog.log.info 'Running terraform to configure ECS tasks and services'
