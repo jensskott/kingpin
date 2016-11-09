@@ -16,13 +16,24 @@ def parseContainers(array, labels)
         log = []
         c = {}
         c['name'] = l['name'] # required
-        c['essential'] = l['essential'] # required
         c['image'] = l['image'] # required
-        c['environment'] = l['env'] unless l['env'].nil?
+        if l['resources']['cpu'].nil?
+            c['cpu'] = 0
+        else
+            c['cpu'] = l['resources']['cpu']
+        end
         c['memory'] = l['resources']['memory'] # required
-        c['cpu'] = l['resources']['cpu'] unless l['resources']['cpu'].nil?
-        c['docker_labels'] = labels unless labels.empty?
         c['links'] = l['links'] unless l['links'].nil?
+        c['port_mappings'] = []
+        c['essential'] = l['essential'] # required
+        if l['env'].nil?
+            c['environment'] = []
+        else
+            c['environment'] = l['env']
+        end
+        c['mount_points'] = []
+        c['volumes_from'] = []
+        c['docker_labels'] = labels
         arr << c
     end
     arr

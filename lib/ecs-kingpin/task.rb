@@ -27,13 +27,9 @@ end
 def diffTaskDefinition(containers, service, currentTask)
     task = taskOpts(containers, service)
     currentTask = currentTask.to_h
-    h1 = task[:container_definitions]
-    h2 = currentTask[:task_definition][:container_definitions]
-    h2.each do |d|
-        d.each do |k,v|
-            puts k
-            puts v
-        end
-    end
-    #puts h1 == h2
+    h1 = task[:container_definitions][0].to_h
+    h2 = currentTask[:task_definition][:container_definitions][0].to_h
+    # Create hashes from the different containers
+    diff = HashDiff.diff(h1, h2)
+    puts diff.true
 end

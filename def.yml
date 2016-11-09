@@ -70,8 +70,8 @@ spec:
       container_path:
 
     resources:  # Resource limits
-      cpu:
-      memory: 1024
+      cpu: 20
+      memory: 2048
 
     links:  #Container links
     - "redis:redis"
