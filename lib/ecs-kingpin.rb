@@ -39,6 +39,7 @@ class Kingpin
         if currentTask.nil?
             createTask(containers, service, region)
         else
+            diffTaskDefinition(containers, service, currentTask)
             # Placeholder for compare and update task
             Kinglog.log.info 'Task allready exsists'
         end

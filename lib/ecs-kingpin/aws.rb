@@ -43,11 +43,12 @@ end
 
 # Create task
 def createTask(containers, service, region)
+    # Create options for task definition
     task = taskOpts(containers,service)
     ecs = connectEcs(region)
     begin
         ecs.register_task_definition(task)
-        Kinglog.log.info "Sucessfully created #{task[:family]}"
+        Kinglog.log.info "Sucessfully created task defintion: #{task[:family]}"
     rescue Aws::ECS::Errors::ServiceError
         Kinglog.log.error "Cant create a task definition"
     end

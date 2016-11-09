@@ -24,7 +24,16 @@ def taskOpts(array, service)
     taskDefinition
 end
 
-def diffTaskDefinition(currentTask, task)
-    currentTask.to_h
-    
+def diffTaskDefinition(containers, service, currentTask)
+    task = taskOpts(containers, service)
+    currentTask = currentTask.to_h
+    h1 = task[:container_definitions]
+    h2 = currentTask[:task_definition][:container_definitions]
+    h2.each do |d|
+        d.each do |k,v|
+            puts k
+            puts v
+        end
+    end
+    #puts h1 == h2
 end
