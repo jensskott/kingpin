@@ -3,7 +3,7 @@ type: PublicService
 version: 1
 
 metadata:
-  name: my-frontend-ui
+  name: ball-app
   labels:
     - name: "datadog"
       value: "true"
@@ -25,19 +25,19 @@ spec:
 
   # Shared volumes on ECS cluster
   volumes:
-  - name: "webdata"
-    source: "/ecs/webdata"
+  - name:
+    source:
 
   # Container definition
   containers:
   # Container for Nginx
   - name: nginx
-    image: ~/nginx:1.7.9 # If image starts with "~/" - auto-detect service-specific registry URL
+    image: mardle/rest-api-test # If image starts with "~/" - auto-detect service-specific registry URL
     essential: true # main container - if down, then restart all
 
     env:
     - name: "SERVER_PORT"
-      value: 8080
+      value: "8080"
 
     ports:
     - containerPort: 8080 # Port EXPOSE
@@ -50,11 +50,12 @@ spec:
 #      port: 81
 #      protocol: "https"
 #      name: "management"
-    logs:
-      logdriver: "gelf"
-      options:
-        gelf-address: "udp://crap.com:5212"
-        labels: "hej, då"
+# If Logs are needed in the future
+#    logs:
+#     log_driver: "gelf"
+#      options:
+#        gelf-address: "udp://crap.com:5212"
+#        labels: "test"
 
     health:
       portName: "public" # defaults to "_default_"
@@ -65,12 +66,12 @@ spec:
       unhealthyTh: 2
 
     volumes:  # Volume mounting
-    - sourceVolume:
-      containerPath:
+    - source_volume:
+      container_path:
 
     resources:  # Resource limits
-      cpu: ""
-      memory: ""
+      cpu:
+      memory: 1024
 
     links:  #Container links
     - "redis:redis"
@@ -80,4 +81,4 @@ spec:
     image: redis
     essential: false
     resources:
-      memory: 128M # Units are parsed to be user friendly, no unit = MB
+      memory: 128 # Units are parsed to be user friendly, no unit = MB

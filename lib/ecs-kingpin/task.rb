@@ -19,10 +19,12 @@ def createTaskDefinition(array, service)
 end
 
 # Create task options for aws api
-def taskOpts(array,service)
-    #json_opts = array.to_json
-    #parsed = JSON.parse(json_opts)
-    task_definition = "{family: #{service}, container_definitions:#{array}}"
-    puts task_definition.to_h
-    return task_definition
+def taskOpts(array, service)
+    taskDefinition = { family: service, container_definitions: array }
+    taskDefinition
+end
+
+def diffTaskDefinition(currentTask, task)
+    currentTask.to_h
+    
 end

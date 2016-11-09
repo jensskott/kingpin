@@ -1,9 +1,17 @@
 def connectEcs(region)
-    Aws::ECS::Client.new(region: region)
+    begin
+        Aws::ECS::Client.new(region: region)
+    rescue Aws::ECS::Errors::ServiceError
+        Kinglog.log.error "Cant connect to S3"
+    end
 end
 
 def connectS3(region)
-    Aws::S3::Client.new(region: region)
+    begin
+        Aws::S3::Client.new(region: region)
+    rescue Aws::ECS::Errors::ServiceError
+        Kinglog.log.error "Cant connect to S3"
+    end
 end
 
 def awsBucket(region, bucketName)
@@ -17,14 +25,30 @@ def awsBucket(region, bucketName)
     if bucket.empty?
         Kinglog.log.info "Creating bucket #{bucketName}!"
         s3.create_bucket(bucket: bucketName)
-        Kinglog.log.info "Enabling bucket versioning!"
+        Kinglog.log.info 'Enabling bucket versioning!'
         s3.put_bucket_versioning(bucket: bucketName, versioning_configuration: { mfa_delete: 'Disabled', status: 'Enabled' })
     else
-        Kinglog.log.info "Bucket allready exists"
+        Kinglog.log.info 'Bucket allready exists'
     end
 end
 
-def createTask(task,region)
+# Describe to compare task
+def describeTask(taskName, region)
     ecs = connectEcs(region)
-    ecs.register_task_definition(task)
+    currentTask = ecs.list_task_definition_families({family_prefix: "#{taskName}", status: "ACTIVE", })
+    if !currentTask['families'].empty?
+        currentTask = ecs.describe_task_definition({ task_definition: "#{taskName}", })
+    end
+end
+
+# Create task
+def createTask(containers, service, region)
+    task = taskOpts(containers,service)
+    ecs = connectEcs(region)
+    begin
+        ecs.register_task_definition(task)
+        Kinglog.log.info "Sucessfully created #{task[:family]}"
+    rescue Aws::ECS::Errors::ServiceError
+        Kinglog.log.error "Cant create a task definition"
+    end
 end

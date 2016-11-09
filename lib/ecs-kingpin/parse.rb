@@ -13,20 +13,19 @@ end
 def parseContainers(array, labels)
     arr = []
     array.each do |l|
+        log = []
         c = {}
-        c['name'] = l['name']
-        c['essential'] = l['essential']
-        c['image'] = l['image']
-        c['environment'] = l['env']
-        c['memory'] = l['resources']['memory']
-        c['cpu'] = l['resources']['cpu']
-        c['mountPoints'] = l['volumes']
-        c['docker_labels'] = labels
-        c['links'] = l['links']
-        c['logConfiguration'] = l['logs']
+        c['name'] = l['name'] # required
+        c['essential'] = l['essential'] # required
+        c['image'] = l['image'] # required
+        c['environment'] = l['env'] unless l['env'].nil?
+        c['memory'] = l['resources']['memory'] # required
+        c['cpu'] = l['resources']['cpu'] unless l['resources']['cpu'].nil?
+        c['docker_labels'] = labels unless labels.empty?
+        c['links'] = l['links'] unless l['links'].nil?
         arr << c
     end
-    return arr
+    arr
 end
 
 # Parse service variables and return them
@@ -35,5 +34,5 @@ def parseService(array)
     array.each do |l|
         arr << l['ports'] unless l['ports'].nil?
     end
-    return arr
+    arr
 end

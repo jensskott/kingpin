@@ -54,5 +54,5 @@ def cliOpts
     # Puts all file options into opts[:yaml]
     # Accessable trough opts[:yaml]['metadata'] ....
     opts[:yaml] = fileOpts(opts[:file])
-    return opts
+    opts
 end
