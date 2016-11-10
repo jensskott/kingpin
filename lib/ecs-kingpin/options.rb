@@ -7,9 +7,7 @@ def fileOpts(file,profile)
         arr = []
         case profile
         when 'default'
-            arr << l.key('default')
-            puts arr
-            return arr
+            puts l.inspect
         end
     end
 end
