@@ -38,7 +38,7 @@ class Kingpin
     case opts[:command]
     when 'debug'
         Kinglog.log.info 'Put all data into standard out'
-        Kinglog.log.info opts[:yaml][:profile]
+        Kinglog.log.info 
     when 'aws'
         Kinglog.log.info 'Running AWS api to configure ECS tasks and services'
         currentTask = describeTask(service,region)

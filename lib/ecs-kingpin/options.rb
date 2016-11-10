@@ -1,7 +1,17 @@
-def fileOpts(file)
-    yaml = YAML.load_file(file)
-    yaml
-    # Use yaml = Psych.load_stream(open(file))
+def fileOpts(file,profile)
+    #yaml = YAML.load_file(file)
+    #yaml
+
+    yaml = Psych.load_stream(open(file))
+    yaml.each do |l|
+        arr = []
+        case profile
+        when 'default'
+            arr << l.key('default')
+            puts arr
+            return arr
+        end
+    end
 end
 
 def cliOpts
@@ -18,6 +28,7 @@ def cliOpts
         opt :region, 'Put your aws region here', type: :string
         opt :env, 'Application Environment', type: :string
         opt :product, 'The product where your services are related', type: :string
+        opt :profile, 'Profile to use with deployment', type: :string, default: 'default'
         opt :command, 'aws, terraform or debug', type: :string, default: 'aws'
         opt :file, 'Yaml file to read data from', type: :string
         opt :local, 'Use local config files', type: :bool, default: false
@@ -54,6 +65,6 @@ def cliOpts
 
     # Puts all file options into opts[:yaml]
     # Accessable trough opts[:yaml]['metadata'] ....
-    opts[:yaml] = fileOpts(opts[:file])
+    opts[:yaml] = fileOpts(opts[:file],opts[:profile])
     opts
 end
