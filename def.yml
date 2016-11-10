@@ -1,4 +1,4 @@
---- 
+---
 
 profile: default
 # Type of a service to maintain: PublicService creates public ELB,  PrivateService creates internal ELB
@@ -89,14 +89,13 @@ spec:
 ...
 ---
 
-profile: production
-
-spec:
-  containers:
-  - name: rest-api
-    env:
-    - name: "SERVER_PORT"
-      value: 80
-    - name: "SPRING_PROFILE"
-      value: "production"
+- profile: production
+  spec:
+    containers:
+    - name: rest-api
+      env:
+      - name: "SERVER_PORT"
+        value: 80
+      - name: "SPRING_PROFILE"
+        value: "production"
 ...

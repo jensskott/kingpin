@@ -1,12 +1,11 @@
 def fileOpts(file,profile)
-    yaml = YAML.load_file(file)
-    yaml
+    #yaml = YAML.load_file(file)
+    #yaml
 
-    #yaml = Psych.load_stream(open(file))
-    #yaml.each do |l|
-#        l = l.to_a
-#        puts l
-#    end
+    yaml = Psych.load_stream(open(file))
+    yaml.each do |l|
+        puts l[0]
+    end
 end
 
 def cliOpts
