@@ -1,6 +1,7 @@
 def fileOpts(file)
-    yaml = YAML.load_file(file.to_s)
+    yaml = YAML.load_file(file)
     yaml
+    # Use yaml = Psych.load_stream(open(file))
 end
 
 def cliOpts

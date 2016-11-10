@@ -27,15 +27,18 @@ class Kingpin
     opts = cliOpts
 
     # Define varaibles for service and tasks
-    labels = parseLabels(opts[:yaml]['metadata']['labels'])
-    servicePort = parseService(opts[:yaml]['spec']['containers'])
-    containers = parseContainers(opts[:yaml]['spec']['containers'], labels)
-    service = opts[:yaml]['metadata']['name']
-    region = opts[:region]
+    if !opts[:command] == 'debug'
+        labels = parseLabels(opts[:yaml]['metadata']['labels'])
+        servicePort = parseService(opts[:yaml]['spec']['containers'])
+        containers = parseContainers(opts[:yaml]['spec']['containers'], labels)
+        service = opts[:yaml]['metadata']['name']
+        region = opts[:region]
+    end
 
     case opts[:command]
     when 'debug'
-        puts 'Output everything in standard out'
+        Kinglog.log.info 'Put all data into standard out'
+        Kinglog.log.info opts[:yaml][:profile]
     when 'aws'
         Kinglog.log.info 'Running AWS api to configure ECS tasks and services'
         currentTask = describeTask(service,region)

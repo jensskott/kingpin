@@ -1,3 +1,6 @@
+--- 
+
+profile: default
 # Type of a service to maintain: PublicService creates public ELB,  PrivateService creates internal ELB
 type: PublicService
 version: 1
@@ -74,7 +77,7 @@ spec:
       memory: 2048
 
     links:  #Container links
-    
+
 
   # Container for Redis
   - name: redis
@@ -82,3 +85,18 @@ spec:
     essential: false
     resources:
       memory: 128 # Units are parsed to be user friendly, no unit = MB
+
+...
+---
+
+profile: production
+
+spec:
+  containers:
+  - name: rest-api
+    env:
+    - name: "SERVER_PORT"
+      value: 80
+    - name: "SPRING_PROFILE"
+      value: "production"
+...
