@@ -10,6 +10,7 @@ require 'mkmf'
 require 'hashie'
 require 'yajl'
 require 'json-compare'
+require 'deep_merge'
 
 
 # Require local libs
@@ -38,7 +39,7 @@ class Kingpin
     case opts[:command]
     when 'debug'
         Kinglog.log.info 'Put all data into standard out'
-        Kinglog.log.info 
+        Kinglog.log.info
     when 'aws'
         Kinglog.log.info 'Running AWS api to configure ECS tasks and services'
         currentTask = describeTask(service,region)
