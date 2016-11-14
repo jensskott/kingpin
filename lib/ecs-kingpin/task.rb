@@ -2,10 +2,10 @@
 def createTaskDefinition(array, service)
     json_opts = array.to_json
     parsed = JSON.parse(json_opts)
-    last = parsed.last
+    final = parsed.last
 
     task_definition = "{\"container_definitions\": [
-      <% parsed.each do |array| %><%= array.to_json %><% unless last[\"name\"] == array[\"name\"] %>,<% end %><% end %>
+      <% parsed.each do |array| %><%= array.to_json %><% unless final[\"name\"] == array[\"name\"] %>,<% end %><% end %>
       ],
       \"family\": \"<%= service %>\"
     }"
